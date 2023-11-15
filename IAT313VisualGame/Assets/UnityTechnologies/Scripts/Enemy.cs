@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -8,23 +9,30 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 	// ====== ENEMY MOVEMENT ========
-	public float speed;
-	public float timeToChange;
-	public bool horizontal;
 
-	public GameObject smokeParticleEffect;
+
+	public bool horizontal;
+    public Unit followPath;
+    public bool startFollow = false;
+    protected bool followLoop = true;
+    protected Coroutine stopFollow = null;
+    protected bool noMove;
+
+    public GameObject player;
+
+    public GameObject smokeParticleEffect;
 	public ParticleSystem fixedParticleEffect;
 
 	public AudioClip hitSound;
 	public AudioClip fixedSound;
 	
 	Rigidbody2D rigidbody2d;
-	float remainingTimeToChange;
+	
 	Vector2 direction = Vector2.right;
 	bool repaired = false;
 	
 	// ===== ANIMATION ========
-	Animator animator;
+	public Animator animator;
 	
 	// ================= SOUNDS =======================
 	AudioSource audioSource;
@@ -32,38 +40,102 @@ public class Enemy : MonoBehaviour
 	void Start ()
 	{
 		rigidbody2d = GetComponent<Rigidbody2D>();
-		remainingTimeToChange = timeToChange;
+		
+        followPath = GetComponent<Unit>();
+        direction = horizontal ? Vector2.right : Vector2.down;
 
-		direction = horizontal ? Vector2.right : Vector2.down;
-
-		animator = GetComponent<Animator>();
+		//animator = GetComponent<Animator>();
 
 		audioSource = GetComponent<AudioSource>();
-	}
+
+    }
 	
 	void Update()
 	{
 		if(repaired)
 			return;
-		
-		remainingTimeToChange -= Time.deltaTime;
 
-		if (remainingTimeToChange <= 0)
-		{
-			remainingTimeToChange += timeToChange;
-			direction *= -1;
-		}
 
-		animator.SetFloat("ForwardX", direction.x);
+        if (startFollow)
+        {
+            startFollowing();
+            doNotMove();
+            ChaseBackPlayer();
+            Debug.Log("following");
+            startFollow = false;
+        }
+        //remainingTimeToChange -= Time.deltaTime;
+
+        //if (remainingTimeToChange <= 0)
+        //{
+        //	remainingTimeToChange += timeToChange;
+        //	direction *= -1;
+        //}
+
+        animator.SetFloat("ForwardX", direction.x);
 		animator.SetFloat("ForwardY", direction.y);
 	}
 
 	void FixedUpdate()
 	{
-		rigidbody2d.MovePosition(rigidbody2d.position + direction * speed * Time.deltaTime);
+		//rigidbody2d.MovePosition(rigidbody2d.position + direction * speed * Time.deltaTime);
 	}
 
-	void OnCollisionStay2D(Collision2D other)
+    public virtual void startFollowing()
+    {
+
+        if (followLoop == true)
+        {
+            //   Debug.Log("start");
+            // followPath.target = player.transform;
+            stopFollow = StartCoroutine(followPath.RefreshPath());
+            // Debug.Log(player.transform.position );
+            followLoop = false;
+        }
+        else
+        {
+
+            Debug.Log("stop");
+            //StartCoroutine(followPath.RefreshPath());
+            //  StopCoroutine(stopFollow);
+            followPath.target = this.transform;
+            followLoop = true;
+        }
+        startFollow = false;
+    }
+    public virtual void doNotMove()
+    {
+
+        followPath.target = this.transform;
+        noMove = true;
+
+    }
+
+    public void ChaseBackPlayer()
+    {
+        followPath.target = player.transform;
+        Debug.Log("chaseBackPlayer");
+
+        noMove = false;
+    }
+    
+    public void goToThislocation(Transform toLocation)
+    {
+
+    }
+
+    // go to player
+    public virtual IEnumerator HeadOnWalk(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        followPath.target = this.transform;
+
+        yield break;
+
+    }
+
+    void OnCollisionStay2D(Collision2D other)
 	{
 		if(repaired)
 			return;

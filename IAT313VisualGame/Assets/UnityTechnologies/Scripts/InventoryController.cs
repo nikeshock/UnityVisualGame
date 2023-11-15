@@ -377,7 +377,7 @@ public class InventoryController : MonoBehaviour {
         foreach (Item i in _items)
         {
             //if item is already inside
-            if (i.weaponName == item.weaponName && i.stackable == true)
+            if (i.itemName == item.itemName && i.stackable == true)
             {
                 i.Add(1);
                 Debug.Log("added");

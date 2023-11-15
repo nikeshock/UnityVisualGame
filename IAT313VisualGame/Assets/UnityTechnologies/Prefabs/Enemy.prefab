@@ -95,10 +95,11 @@ GameObject:
   - component: {fileID: 6982084178593964875}
   - component: {fileID: 6982084178593964872}
   - component: {fileID: 6982084178593964868}
-  - component: {fileID: 6982084178593964869}
+  - component: {fileID: 6265577694032987346}
   - component: {fileID: 6982084178593964874}
   - component: {fileID: 6982084178593964871}
   - component: {fileID: 183533452884923571}
+  - component: {fileID: 7857890602588573352}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -196,32 +197,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &6982084178593964869
-BoxCollider2D:
+--- !u!114 &6265577694032987346
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6982084178593964873}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.012663841, y: 0.5149325}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.7069987, y: 1.7053334}
-    newSize: {x: 1.28, y: 1.28}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.6629238, y: 1.175178}
-  m_EdgeRadius: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c16567f2691a7d94eb2491c26a214922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 3
+  targetIndex: 0
+  pathScript: {fileID: 0}
 --- !u!114 &6982084178593964874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,9 +225,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c355cf67d54abee4aae3b97fd7e93987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  timeToChange: 2
   horizontal: 1
+  followPath: {fileID: 6265577694032987346}
+  startFollow: 1
+  player: {fileID: 0}
   smokeParticleEffect: {fileID: 7972057267707664465}
   fixedParticleEffect: {fileID: 2688776450615711917, guid: 96e9cd9955be74842b5d6b2e427ffe16,
     type: 3}
@@ -358,6 +350,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!58 &7857890602588573352
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6982084178593964873}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0407023, y: -0.80355996}
+  serializedVersion: 2
+  m_Radius: 0.28538212
 --- !u!1 &7972057267707664465
 GameObject:
   m_ObjectHideFlags: 0

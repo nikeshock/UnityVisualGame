@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class RubyController : MonoBehaviour
 {
+    // =========DAY SYSTEM================
+    public DaySystem dayScript;
+
     // ========= MOVEMENT =================
     public float speed = 4;
     
@@ -35,7 +38,7 @@ public class RubyController : MonoBehaviour
     bool isInvincible;
    
     // ==== ANIMATION =====
-    Animator animator;
+    public Animator animator;
     Vector2 lookDirection = new Vector2(1, 0);
     
     // ================= SOUNDS =======================
@@ -51,7 +54,7 @@ public class RubyController : MonoBehaviour
         currentHealth = maxHealth;
         
         // ==== ANIMATION =====
-        animator = GetComponent<Animator>();
+       // animator = GetComponent<Animator>();
         
         // ==== AUDIO =====
         audioSource = GetComponent<AudioSource>();
@@ -138,15 +141,16 @@ public class RubyController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         
         if(currentHealth == 0)
-            Respawn();
+            ChangeMode();
         
         UIHealthBar.Instance.SetValue(currentHealth / (float)maxHealth);
     }
     
-    void Respawn()
+    void ChangeMode()
     {
         ChangeHealth(maxHealth);
         transform.position = respawnPosition.position;
+        dayScript.UpdateTimeScene();
     }
     
     // =============== PROJECTICLE ========================

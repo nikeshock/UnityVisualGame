@@ -6,7 +6,7 @@ using UnityEngine;
 public class Item : InputManager2, IClickable {
 
 	public int quantity = 1;
-    public string weaponName;
+    public string itemName;
     public bool stackable = false;
     public bool unDeletable = false;
 
