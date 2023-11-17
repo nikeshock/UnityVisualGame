@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6454465708406056680}
   - component: {fileID: 4394495805989657148}
   m_Layer: 5
-  m_Name: KeyIcon 3
+  m_Name: KeyIcon 2
   m_TagString: ItemIcon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSelected: {fileID: 0}
   quantity: 1
-  itemName: key1
+  itemName: key7
   stackable: 0
   unDeletable: 0
   weaponType: 
@@ -157,14 +157,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.19430864, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5bbc5bcad2551c440b2d76391f0c4cda, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 82818abb8e4b8d342b2affbefee61003, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

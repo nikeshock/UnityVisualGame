@@ -11,6 +11,8 @@ public class NonPlayerCharacter : MonoBehaviour
     public float displayTime = 4.0f;
     public GameObject dialogBox;
     float timerDisplay;
+
+    public Dialogue dialogTriggerBox;
     
     void Start()
     {
@@ -32,7 +34,8 @@ public class NonPlayerCharacter : MonoBehaviour
     
     public void DisplayDialog()
     {
-        timerDisplay = displayTime;
-        dialogBox.SetActive(true);
+        //timerDisplay = displayTime;
+        //dialogBox.SetActive(true);
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogTriggerBox);
     }
 }

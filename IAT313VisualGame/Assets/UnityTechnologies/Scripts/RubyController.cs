@@ -9,8 +9,9 @@ public class RubyController : MonoBehaviour
     // ========= MOVEMENT =================
     public float speed = 4;
     
-    // ======== HEALTH ==========
+    // ======== ENERGY ==========
     public int maxHealth = 5;
+    public int bonusEnergy = 1;
     public float timeInvincible = 2.0f;
     public Transform respawnPosition;
     public ParticleSystem hitParticle;
@@ -93,8 +94,8 @@ public class RubyController : MonoBehaviour
 
         // ============== PROJECTILE ======================
 
-        if (Input.GetKeyDown(KeyCode.C))
-            LaunchProjectile();
+        //if (Input.GetKeyDown(KeyCode.C))
+        //    LaunchProjectile();
         
         // ======== DIALOGUE ==========
         if (Input.GetKeyDown(KeyCode.X))
@@ -122,10 +123,9 @@ public class RubyController : MonoBehaviour
     }
 
     // ===================== HEALTH ==================
-    public void ChangeHealth(int amount)
+    public void ChangeHealth()
     {
-        if (amount < 0)
-        { 
+        
             if (isInvincible)
                 return;
             
@@ -135,20 +135,26 @@ public class RubyController : MonoBehaviour
             animator.SetTrigger("Hit");
             audioSource.PlayOneShot(hitSound);
 
-            Instantiate(hitParticle, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        }
-        
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        //Instantiate(hitParticle, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+
+
+        //currentHealth = Mathf.Clamp(currentHealth - 1, 0, maxHealth);
+        currentHealth--;
         
         if(currentHealth == 0)
             ChangeMode();
-        
-        UIHealthBar.Instance.SetValue(currentHealth / (float)maxHealth);
+        else
+        {
+            UIHealthBar.Instance.useEnergy(currentHealth );
+        }
+        //UIHealthBar.Instance.SetValue(currentHealth / (float)maxHealth);
+      
+
     }
     
     void ChangeMode()
     {
-        ChangeHealth(maxHealth);
+        currentHealth = maxHealth;
         transform.position = respawnPosition.position;
         dayScript.UpdateTimeScene();
     }

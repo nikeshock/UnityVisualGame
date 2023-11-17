@@ -3,8 +3,8 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// This class handle Enemy behaviour. It make them walk back & forth as long as they aren't fixed, and then just idle
-/// without being able to interact with the player anymore once fixed.
+/// This class handle Enemy behaviour. It make them follow the target as long as they aren't fixed, and then just idle
+/// This can chase the player down and interact with the player.
 /// </summary>
 public class Enemy : MonoBehaviour
 {
@@ -143,7 +143,7 @@ public class Enemy : MonoBehaviour
 		RubyController controller = other.collider.GetComponent<RubyController>();
 		
 		if(controller != null)
-			controller.ChangeHealth(-1);
+			controller.ChangeHealth();
 	}
 
 	public void Fix()

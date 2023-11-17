@@ -5,6 +5,10 @@
 /// </summary>
 public class HealthCollectible : MonoBehaviour 
 {
+
+    public bool spentEnergy;
+    public GameObject setWindow;
+
     void OnTriggerEnter2D(Collider2D other)
     {
         //RubyController controller = other.GetComponent<RubyController>();
@@ -28,8 +32,18 @@ public class HealthCollectible : MonoBehaviour
         {
             if (Input.GetKeyDown("x"))
             {
-                controller.ChangeHealth(-1);
-                Destroy(gameObject);
+                if(spentEnergy == false)
+                {
+                    controller.ChangeHealth();
+                    spentEnergy = true;
+                    setWindow.SetActive(true);
+                }
+                else if(setWindow.activeSelf == false)
+                {
+                    setWindow.SetActive(true);
+                }
+              
+                //Destroy(gameObject);
             }
 
         }

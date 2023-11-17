@@ -12,6 +12,7 @@ public class LockCombo : MonoBehaviour
     int NrIndex = 0;
     string alpha;
     public TextMeshProUGUI UiText = null;
+    public DoorPad doorUnlockObject;
 
     public void CodeFunction(string Numbers)
     {
@@ -24,7 +25,9 @@ public class LockCombo : MonoBehaviour
     {
         if (Nr == Code)
         {
+            doorUnlockObject.setDoorOpen();
             Debug.Log("you got the code");
+            Delete();
         }
         else
         {

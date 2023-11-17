@@ -12,7 +12,7 @@ public class DamageZone : MonoBehaviour
         if (controller != null)
         {
             //the controller will take care of ignoring the damage during the invincibility time.
-            controller.ChangeHealth(-1);
+            controller.ChangeHealth();
         }
     }
 }
