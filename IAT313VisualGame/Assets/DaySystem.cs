@@ -21,10 +21,13 @@ public class DaySystem : MonoBehaviour
     //day time
     public GameObject dayLight;
 
+    //maincharacter
+    public RubyController mainCharacterScript;
+
     // Start is called before the first frame update
     void Start()
     {
-        Day1Scene();
+       // Day1Scene();
     }
 
     // Update is called once per frame
@@ -67,16 +70,24 @@ public class DaySystem : MonoBehaviour
 
     public void PlayDayScene()
     {
+        StartCoroutine(pauseCharacterMovement());
         dayNumberText.SetText("Day: " + dayCounter);
         dayScenePlayable.Play();
     }
 
     public void Day1Scene()
     {
-
+        StartCoroutine(pauseCharacterMovement());
         dayNumberText.SetText("Day: " + dayCounter);
         dayScenePlayable.Play();
 
+    }
+
+    public IEnumerator pauseCharacterMovement()
+    {
+        mainCharacterScript.canMove = false;
+        yield return new WaitForSeconds(3);
+        mainCharacterScript.canMove = true;
     }
 
 }

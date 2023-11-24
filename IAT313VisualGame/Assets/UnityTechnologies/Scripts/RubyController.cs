@@ -5,8 +5,10 @@ public class RubyController : MonoBehaviour
 {
     // =========DAY SYSTEM================
     public DaySystem dayScript;
+    public EnergyActiveItem interactableHolder;
 
     // ========= MOVEMENT =================
+    public bool canMove;
     public float speed = 4;
     
     // ======== ENERGY ==========
@@ -76,6 +78,10 @@ public class RubyController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
                 
         Vector2 move = new Vector2(horizontal, vertical);
+        if(canMove == false)
+        {
+            move = new Vector2(0, 0);
+        }
         
         if(!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
         {
@@ -101,6 +107,7 @@ public class RubyController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, 1 << LayerMask.NameToLayer("NPC"));
+            RaycastHit2D hit2 = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, 1 << LayerMask.NameToLayer("Interactable"));
             if (hit.collider != null)
             {
                 NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
@@ -108,6 +115,14 @@ public class RubyController : MonoBehaviour
                 {
                     character.DisplayDialog();
                 }  
+            }
+            if (hit2.collider != null)
+            {
+                EnergyActiveItem item = hit2.collider.GetComponent<EnergyActiveItem>();
+                if (item != null)
+                {
+                    item.PopInteractable(this);
+                }
             }
         }
  
@@ -159,16 +174,10 @@ public class RubyController : MonoBehaviour
         dayScript.UpdateTimeScene();
     }
     
-    // =============== PROJECTICLE ========================
-    void LaunchProjectile()
+    public void closeItemWindow(GameObject item)
     {
-        GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
-
-        Projectile projectile = projectileObject.GetComponent<Projectile>();
-        projectile.Launch(lookDirection, 300);
-        
-        animator.SetTrigger("Launch");
-        audioSource.PlayOneShot(shootingSound);
+        item.SetActive(false);
+        canMove = true;
     }
     
     // =============== SOUND ==========================
