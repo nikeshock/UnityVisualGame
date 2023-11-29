@@ -13,6 +13,8 @@ public class WeaponItem : Item{
     //public string weaponName;
 
     public GameObject player;
+
+    public GameObject setWindow;
    
 
     //public AbilityCoolDown SkillCDScript;
@@ -52,8 +54,15 @@ public class WeaponItem : Item{
 
     public void useSkill()
     {
-      
-            Debug.Log("low skill used");
+        if (setWindow.activeSelf == true)
+        {
+            setWindow.SetActive(false);
+           
+        }
+        player.GetComponent<RubyController>().canMove = false;
+        setWindow.SetActive(true);
+       
+        Debug.Log("show window UI used");
 
     }
 

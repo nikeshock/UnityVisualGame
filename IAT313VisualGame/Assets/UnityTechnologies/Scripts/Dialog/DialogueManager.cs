@@ -15,6 +15,11 @@ public class DialogueManager : MonoBehaviour
 
     private Queue<string> sentences;
 
+
+    public GameObject pongGame;
+    public GameObject foodGame;
+    public bool playPongGame;
+    public bool playFoodGame;
     // Use this for initialization
     void Start()
     {
@@ -35,6 +40,14 @@ public class DialogueManager : MonoBehaviour
         foreach (string sentence in dialogue.sentences)
         {
             sentences.Enqueue(sentence);
+        }
+        if(dialogue.gameType == "FoodGame")
+        {
+            playFoodGame = true;
+        }
+        else if(dialogue.gameType == "PongGame")
+        {
+            playPongGame = true;
         }
 
         DisplayNextSentence();
@@ -66,6 +79,19 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         //  animator.SetBool("IsOpen", false);
+        if(playPongGame == true)
+        {
+            if(pongGame.activeSelf == false)
+            pongGame.SetActive(true);
+            playPongGame = false;
+        }
+        if(playFoodGame == true)
+        {
+            if (foodGame.activeSelf == false)
+                foodGame.SetActive(true);
+            playFoodGame = false;
+        }
+
         nameText.enabled = false;
         dialogueText.enabled = false;
         characterSprite.enabled = false;

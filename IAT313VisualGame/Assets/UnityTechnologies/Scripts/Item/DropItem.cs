@@ -6,6 +6,8 @@ public class DropItem : MonoBehaviour
 {
     public GameObject _itemPrefabUI;
     public GameObject _itemPrefabHolder;
+    public GameObject windowHolder;
+
 
     public bool canPickUP;
 
@@ -65,7 +67,7 @@ public class DropItem : MonoBehaviour
                GameObject newItem = Instantiate(_itemPrefabUI);
 
                 // if inventory is good to add
-                if (InventoryController.Instance.AddItem(newItem))
+                if (InventoryController.Instance.AddItem(newItem, windowHolder))
                 {
                     Debug.Log("added item bb item");
                     GameObject.Destroy(this.gameObject);
@@ -85,7 +87,7 @@ public class DropItem : MonoBehaviour
 
 
                     //saving item after it finishes
-                    InventoryController.Instance.AddItem(newItem);
+                    InventoryController.Instance.AddItem(newItem, windowHolder);
 
                     GameObject.Destroy(this.gameObject);
 

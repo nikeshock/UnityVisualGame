@@ -7,13 +7,18 @@ public class RubyController : MonoBehaviour
     public DaySystem dayScript;
     public EnergyActiveItem interactableHolder;
 
+    // =========Hide UI================
+    public GameObject energyUi;
+    public GameObject sunUi;
+    public GameObject NightUI;
+
     // ========= MOVEMENT =================
     public bool canMove;
     public float speed = 4;
     
     // ======== ENERGY ==========
     public int maxHealth = 5;
-    public int bonusEnergy = 1;
+    public int bonusEnergy = 0;
     public float timeInvincible = 2.0f;
     public Transform respawnPosition;
     public ParticleSystem hitParticle;
@@ -61,6 +66,7 @@ public class RubyController : MonoBehaviour
         
         // ==== AUDIO =====
         audioSource = GetComponent<AudioSource>();
+       
     }
 
     void Update()
@@ -154,12 +160,23 @@ public class RubyController : MonoBehaviour
 
 
         //currentHealth = Mathf.Clamp(currentHealth - 1, 0, maxHealth);
+        if (bonusEnergy > 0)
+        {
+         
+        }
+        else
         currentHealth--;
         
         if(currentHealth == 0)
             ChangeMode();
         else
         {
+            if(bonusEnergy > 0)
+            {
+                bonusEnergy--;
+                UIHealthBar.Instance.useBonusEnergy();
+            }
+            else
             UIHealthBar.Instance.useEnergy(currentHealth );
         }
         //UIHealthBar.Instance.SetValue(currentHealth / (float)maxHealth);
@@ -167,6 +184,7 @@ public class RubyController : MonoBehaviour
 
     }
     
+
     void ChangeMode()
     {
         currentHealth = maxHealth;

@@ -14,6 +14,7 @@ public class UIHealthBar : MonoBehaviour
     private List<GameObject> bonusEnergy = new List<GameObject>();
     public GameObject extraHp;
 
+    public Transform energyHolder;
 	float originalSize;
 
 	// Use this for initialization
@@ -51,13 +52,15 @@ public class UIHealthBar : MonoBehaviour
     {
         if (bonusEnergy.Count <= 0) return;
         GameObject energy = bonusEnergy[0];
-        bonusEnergy.Remove(energy);
         Destroy(energy);
+        bonusEnergy.Remove(bonusEnergy[0].gameObject);
+        
     }
 
     public void addBonusEnergy()
     {
-      GameObject newEnergy =  Instantiate(extraHp, transform.position, transform.rotation);
+      GameObject newEnergy =  Instantiate(extraHp, energyHolder.transform);
+       // newEnergy.transform.SetParent(energyHolder);
         bonusEnergy.Add(newEnergy);
     }
 

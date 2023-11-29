@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ItemIcon
   - HitMarker
+  - Slot
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - projectile
   - Unwalkable
   - Interactable
-  - 
+  - Post
   - 
   - 
   - 

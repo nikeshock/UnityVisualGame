@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class CookingGame : MonoBehaviour
 {
+    public UIHealthBar characterHpScript;
+    public RubyController characterScript;
+
+    public GameObject cookingWindow;
+    public dialogueTrigger winDialogue;
+    public dialogueTrigger loseDialogue;
+    public int numTry = 5;
+    public NonPlayerCharacter gamePlayerScript;
+
     public bool isPlaying;
     public int orderNum = 0;
     public GameObject[] hitBar;
@@ -26,6 +35,7 @@ public class CookingGame : MonoBehaviour
     {
         remainingTimeToChange = timeToChange;
         //colliderTriggerObject = this.GetComponent<BoxCollider2D>();
+        
     }
 
     // Update is called once per frame
@@ -73,6 +83,14 @@ public class CookingGame : MonoBehaviour
         else
         {
             //ResetGame();
+            //numTry--;
+            //if(numTry <= 0)
+            //{
+            //    ResetGame();
+            //    numTry = 2;
+            //    loseDialogue.TriggerDialogue();
+            //    cookingWindow.SetActive(false);
+            //}
             Debug.Log(name + ": You Lose");
         }
 
@@ -86,6 +104,31 @@ public class CookingGame : MonoBehaviour
         buttonPressToStop = false;
         remainingTimeToChange = timeToChange;
         direction = new Vector2(1, 0);
+        int randomNum = Random.Range(1, 4);
+        if (randomNum == 1)
+            changeOrderFood();
+        else if (randomNum == 2) changeOrderFood2();
+        else changeOrderFood3();
+    }
+   
+    public void changeOrderFood()
+    {
+        hitBar[1].transform.position = objectOrder[2].transform.position;
+        hitBar[0].transform.position = objectOrder[1].transform.position;
+        hitBar[2].transform.position = objectOrder[0].transform.position;
+    }
+
+    public void changeOrderFood2()
+    {
+        hitBar[1].transform.position = objectOrder[0].transform.position;
+        hitBar[0].transform.position = objectOrder[2].transform.position;
+        hitBar[2].transform.position = objectOrder[1].transform.position;
+    }
+    public void changeOrderFood3()
+    {
+        hitBar[1].transform.position = objectOrder[1].transform.position;
+        hitBar[0].transform.position = objectOrder[2].transform.position;
+        hitBar[2].transform.position = objectOrder[0].transform.position;
     }
 
     public void nextPoint()
@@ -100,13 +143,28 @@ public class CookingGame : MonoBehaviour
         if (orderName.Length <= orderNum)
         {
             ResetGame();
+            winDialogue.TriggerDialogue();
+            numTry = 5;
+
+            characterHpScript.addBonusEnergy();
+            characterScript.bonusEnergy++;
             Debug.Log("you win");
+            gamePlayerScript.played = true;
+            cookingWindow.SetActive(false);
             return;
             //you win
         }
         if (orderNum == num)
         {
             ResetGame();
+            numTry--;
+            if (numTry <= 0)
+            {
+      
+                numTry = 5;
+                loseDialogue.TriggerDialogue();
+                cookingWindow.SetActive(false);
+            }
         }
         else
         {

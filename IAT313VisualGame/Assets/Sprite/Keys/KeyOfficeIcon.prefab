@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6578915754655839545}
   - component: {fileID: 4394495805989657148}
   m_Layer: 5
-  m_Name: KeyIcon
+  m_Name: KeyOfficeIcon
   m_TagString: ItemIcon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,12 +61,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSelected: {fileID: 0}
   quantity: 1
-  itemName: key1
+  itemName: OfficeKey
   stackable: 0
   unDeletable: 0
   weaponType: 
   undroppable: 0
   player: {fileID: 0}
+  setWindow: {fileID: 0}
 --- !u!1 &6378214311179051838
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +134,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 82818abb8e4b8d342b2affbefee61003, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9dcf4811b3729954682a72e4787b52b2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

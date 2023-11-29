@@ -18,12 +18,12 @@ public class InputManager : MonoBehaviour
    
     //select
 
-    public GameObject select;
+    //public GameObject select;
     public GameObject itemSelected;
 
     public Color lol;
     public Color lol2;
-    public NameOfPrefab currentSlot;
+    //public NameOfPrefab currentSlot;
     //public Gun gunscript;
    // public GameObject selectedItem;
 
@@ -53,42 +53,38 @@ public class InputManager : MonoBehaviour
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             //Check if we are clicking on UI
+            
             if (IsPointerOverUIObject())
             {
                 //	Debug.Log("Clicked over UI");
                 //Check if is Iclickable on UI
+               
                 foreach (RaycastResult result in UIObjectsUnderPointer())
                 {
+               
+                   
                     if (result.gameObject.GetComponent<IClickable>() != null)
                     {
+                      
 
 
 
-                        if (result.gameObject == itemSelected)
-                        {
-                            Debug.Log("I selected twice");
-                        
-                           
-                            select.GetComponent<Image>().color = lol;
-                            result.gameObject.GetComponent<IClickable>().OnRightClickDown();
-                            return;
-                        }
-
-
-                     
                         if (result.gameObject.GetComponent<WeaponItem>() != null)
                         {
-                         
-                            select.GetComponent<Image>().color = lol2;
-                            Debug.Log("selected");
+
+                            //select.GetComponent<Image>().color = lol2;
+                            Debug.Log("selected2");
                             itemSelected = result.gameObject;
-                            
+                            itemSelected.GetComponent<WeaponItem>().useSkill();
                             //gunscript.weaponEquiped = itemSelected;
                             //gunscript.RefreshGun();
 
-                            currentSlot = result.gameObject.GetComponentInParent<NameOfPrefab>();
-                            select.transform.position = currentSlot.transform.position;
+                            //currentSlot = result.gameObject.GetComponentInParent<NameOfPrefab>();
+                            //select.transform.position = currentSlot.transform.position;
                         }
+
+
+
 
 
 

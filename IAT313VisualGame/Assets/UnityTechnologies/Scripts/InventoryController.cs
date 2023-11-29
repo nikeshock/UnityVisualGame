@@ -40,7 +40,10 @@ public class InventoryController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
 
         foreach (Transform slot in transform.Find("Background/Content"))
         {
@@ -253,19 +256,19 @@ public class InventoryController : MonoBehaviour {
                     //}
                 
                     //weapon
-                    if (result.gameObject.CompareTag("weaponLvlSlot"))
-                    {
+                    //if (result.gameObject.CompareTag("weaponLvlSlot"))
+                    //{
 
 
 
-                        //Set New Parent
-                        draggedItem.transform.SetParent(result.gameObject.transform);
+                    //    //Set New Parent
+                    //    draggedItem.transform.SetParent(result.gameObject.transform);
 
-                        Debug.Log("hi");
-                        //lvlUpWeapon();
+                    //    Debug.Log("hi");
+                    //    //lvlUpWeapon();
 
-                        break;
-                    }
+                    //    break;
+                    //}
 
                     //Empty Slot
                     if (result.gameObject.CompareTag("Slot") )
@@ -288,25 +291,25 @@ public class InventoryController : MonoBehaviour {
 
                         }
 
-                        //upgrade items
-                        if (result.gameObject.transform.CompareTag("weaponLvlSlot"))
-                        {
-                            draggedItem.transform.SetParent(result.gameObject.transform);
+                        ////upgrade items
+                        //if (result.gameObject.transform.CompareTag("weaponLvlSlot"))
+                        //{
+                        //    draggedItem.transform.SetParent(result.gameObject.transform);
 
-                            Debug.Log("put slot");
-                            //lvlUpWeapon();
+                        //    Debug.Log("put slot");
+                        //    //lvlUpWeapon();
 
-                            break;
-                        }
-                        if (result.gameObject.name != draggedItem.name && result.gameObject.GetComponentInParent<NameOfPrefab>().myName == "WeaponLvlSlot")
-                        {
-                            Debug.Log("switch slot upgrade");
-                            draggedItem.transform.SetParent(result.gameObject.transform.parent);
-                            result.gameObject.transform.SetParent(draggedItemParent);
-                            result.gameObject.transform.localPosition = Vector3.zero;
-                            //lvlUpWeapon();
-                            break;
-                        }
+                        //    break;
+                        //}
+                        //if (result.gameObject.name != draggedItem.name && result.gameObject.GetComponentInParent<NameOfPrefab>().myName == "WeaponLvlSlot")
+                        //{
+                        //    Debug.Log("switch slot upgrade");
+                        //    draggedItem.transform.SetParent(result.gameObject.transform.parent);
+                        //    result.gameObject.transform.SetParent(draggedItemParent);
+                        //    result.gameObject.transform.localPosition = Vector3.zero;
+                        //    //lvlUpWeapon();
+                        //    break;
+                        //}
                         //Swap Items
                         if (result.gameObject.name != draggedItem.name)
                         {
@@ -316,8 +319,8 @@ public class InventoryController : MonoBehaviour {
 							result.gameObject.transform.SetParent(draggedItemParent);
 							result.gameObject.transform.localPosition = Vector3.zero;
 
-                            inputScript.select.transform.position = result.gameObject.transform.position;
-                            inputScript.currentSlot = result.gameObject.GetComponentInParent<NameOfPrefab>();
+                            //inputScript.select.transform.position = result.gameObject.transform.position;
+                            //inputScript.currentSlot = result.gameObject.GetComponentInParent<NameOfPrefab>();
 
 
                             break;
@@ -369,7 +372,7 @@ public class InventoryController : MonoBehaviour {
 		raycastResults.Clear();
 	}
 
-    public bool AddItem(GameObject itemGo)
+    public bool AddItem(GameObject itemGo, GameObject window)
     {
         Item item = itemGo.GetComponent<Item>();
 
@@ -380,6 +383,7 @@ public class InventoryController : MonoBehaviour {
             if (i.itemName == item.itemName && i.stackable == true)
             {
                 i.Add(1);
+                i.GetComponent<WeaponItem>().setWindow = window;
                 Debug.Log("added");
                // GameObject.Destroy(itemGo);
                
@@ -399,7 +403,8 @@ public class InventoryController : MonoBehaviour {
                 itemGo.transform.localScale = Vector3.one;
                 itemGo.transform.localPosition = Vector3.zero;
                 _items.Add(item);
-               SaveInGameItems();
+                item.GetComponent<WeaponItem>().setWindow = window;
+                SaveInGameItems();
                 resfreshInv();
                 return true;
             }

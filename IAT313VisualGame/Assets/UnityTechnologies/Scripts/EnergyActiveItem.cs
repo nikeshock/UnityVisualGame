@@ -8,9 +8,10 @@ public class EnergyActiveItem : MonoBehaviour
 
     public bool spentEnergy;
     public GameObject setWindow;
+    public GameObject[] otherWindows;
     public GameObject pressXBox;
 
-    public void PopInteractable(RubyController controller)
+    public virtual void PopInteractable(RubyController controller)
     {
         if(spentEnergy == false)
         {
@@ -20,9 +21,25 @@ public class EnergyActiveItem : MonoBehaviour
         if (setWindow.activeSelf == true)
         {
             setWindow.SetActive(false);
+            if(otherWindows.Length > 0)
+            {
+                for (int i = 0; i < otherWindows.Length; i++)
+                {
+                    otherWindows[i].SetActive(false);
+                }
+
+            }
         }
         controller.canMove = false;
         setWindow.SetActive(true);
+        if (otherWindows.Length > 0)
+        {
+            for (int i = 0; i < otherWindows.Length; i++)
+            {
+                otherWindows[i].SetActive(true);
+            }
+
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
