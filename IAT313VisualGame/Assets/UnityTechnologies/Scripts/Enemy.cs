@@ -8,8 +8,9 @@ using UnityEngine;
 /// </summary>
 public class Enemy : MonoBehaviour
 {
-	// ====== ENEMY MOVEMENT ========
+    // ====== ENEMY MOVEMENT ========
 
+    public bool isChasingPlayer;
 
 	public bool horizontal;
     public Unit followPath;
@@ -137,13 +138,17 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D other)
 	{
-		if(repaired)
+		if(isChasingPlayer == false)
 			return;
 		
 		RubyController controller = other.collider.GetComponent<RubyController>();
 		
 		if(controller != null)
-			controller.ChangeHealth();
+        {
+            //  controller.ChangeHealth();
+            Debug.Log("caught you");
+        }
+		
 	}
 
 	public void Fix()
@@ -159,7 +164,7 @@ public class Enemy : MonoBehaviour
 		rigidbody2d.simulated = false;
 		
 		audioSource.Stop();
-		audioSource.PlayOneShot(hitSound);
-		audioSource.PlayOneShot(fixedSound);
+		//audioSource.PlayOneShot(hitSound);
+		//audioSource.PlayOneShot(fixedSound);
 	}
 }

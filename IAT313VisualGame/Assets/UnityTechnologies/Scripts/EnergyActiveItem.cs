@@ -15,6 +15,11 @@ public class EnergyActiveItem : MonoBehaviour
     {
         if(spentEnergy == false)
         {
+            if(controller.health <= 0)
+            {
+                controller.ChangeMode();
+                return;
+            }
             controller.ChangeHealth();
             spentEnergy = true;
         }

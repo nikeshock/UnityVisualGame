@@ -2,10 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.Playables;
 
 public class BallMovement : MonoBehaviour
 {
+
+    public AudioSource audioSource;
+    public AudioClip scoreSound;
+    public AudioClip hitSound;
+
+
+    public UIHealthBar characterHpScript;
+    public RubyController playerControllerScript;
+    public GameObject pongWindowBox;
+    public NonPlayerCharacter gamePlayerScript;
+    public PlayableDirector playWinClip;
+    public PlayableDirector playLoseClip;
+
     public float initialSpeed = 10;
     public float speedIncrease = 0.25f;
 
@@ -15,13 +28,13 @@ public class BallMovement : MonoBehaviour
     private int aiScoreCount;
 
     public int hitCounter;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Invoke("StartBall", 1.5f);
+        //Invoke("StartBall", 1.5f);
     }
 
     private void FixedUpdate()
@@ -34,6 +47,22 @@ public class BallMovement : MonoBehaviour
         rb.velocity = new Vector2(-1, 0) * (initialSpeed + speedIncrease * hitCounter);
     }
 
+    public void ResetGame()
+    {
+        rb.velocity = new Vector2(0, 0);
+        transform.localPosition = new Vector2(0, 0);
+        hitCounter = 0;
+        playerScoreCount = 0;
+        aiScoreCount = 0;
+        playerScore.text = (playerScoreCount).ToString();
+        AiScore.text = ( aiScoreCount).ToString();
+        //Invoke("StartBall", 2f);
+    }
+    public void playBall()
+    {
+        ResetGame();
+        Invoke("StartBall", 1.5f);
+    }
     public void ResetBall()
     {
         rb.velocity = new Vector2(0, 0);
@@ -47,7 +76,7 @@ public class BallMovement : MonoBehaviour
         hitCounter++;
         Vector2 ballPos = transform.localPosition;
         Vector2 playerPos = myObject.localPosition;
-
+        audioSource.PlayOneShot(hitSound);
         float xDirection, yDirection;
         if(transform.localPosition.x > 0)
         {
@@ -69,16 +98,30 @@ public class BallMovement : MonoBehaviour
 
     public void playerWins()
     {
-
+        ResetGame();
+        //winDialogue.TriggerDialogue();
+       
+        characterHpScript.addBonusEnergy();
+        playerControllerScript.bonusEnergy++;
+        Debug.Log("you win");
+        gamePlayerScript.played = true;
+        playWinClip.Play();
+        playerControllerScript.returnUI();
+        pongWindowBox.SetActive(false);
+        //playerControllerScript.closeItemWindow(pongWindowBox);
     }
     public void aiWins()
     {
-
+        ResetGame();
+        gamePlayerScript.played = true;
+        playLoseClip.Play();
+        playerControllerScript.returnUI();
+        pongWindowBox.SetActive(false);
     }
 
     public void exitGame()
     {
-
+        playerControllerScript.closeItemWindow(pongWindowBox);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -93,15 +136,39 @@ public class BallMovement : MonoBehaviour
     {
         if(transform.localPosition.x > 0)
         {
-            ResetBall();
+            audioSource.PlayOneShot(scoreSound);
             playerScoreCount++;
-            playerScore.text = (int.Parse(playerScore.text) + playerScoreCount).ToString();
-        }else if(transform.localPosition.x < 0)
-        {
+            playerScore.text = ( playerScoreCount).ToString();
+            if (playerScoreCount >= 3)
+            {
+                playerWins();
+                return;
+            }
+            if (aiScoreCount >= 3)
+            {
+                aiWins();
+                return;
+            }
             ResetBall();
-            aiScoreCount++;
-            AiScore.text = (int.Parse(AiScore.text) + aiScoreCount).ToString();
         }
+        else if(transform.localPosition.x < 0)
+        {
+            audioSource.PlayOneShot(scoreSound);
+            aiScoreCount++;
+            AiScore.text = ( aiScoreCount).ToString();
+            if (playerScoreCount >= 3)
+            {
+                playerWins();
+                return;
+            }
+            if (aiScoreCount >= 3)
+            {
+                aiWins();
+                return;
+            }
+            ResetBall();
+        }
+      
     }
 
 

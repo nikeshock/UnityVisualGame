@@ -24,6 +24,18 @@ public class DaySystem : MonoBehaviour
     //maincharacter
     public RubyController mainCharacterScript;
 
+    public AudioClip dayBgSound;
+    public AudioClip nightBgSound;
+    public AudioSource backgroundMusic;
+
+    public NonPlayerCharacter pongGame;
+    public NonPlayerCharacter momGame;
+
+    public GameObject hideMom;
+
+    public BasementStair basementNightScript;
+    public BasementStair gardenDoorScript;
+    public OfficeScript officeBlocker;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,12 +52,31 @@ public class DaySystem : MonoBehaviour
     {
         nightLight.SetActive(true);
         dayLight.SetActive(false);
+        mainCharacterScript.flashlightSource.SetActive(false);
+        backgroundMusic.clip = nightBgSound;
+        backgroundMusic.Play();
+        basementNightScript.nightWall();
+        gardenDoorScript.nightWall();
+        officeBlocker.dayWall();
+        basementNightScript.isNight = true;
+        gardenDoorScript.isNight = true;
+        officeBlocker.isNight = true;
     }
     public void makeDay()
     {
         nightLight.SetActive(false);
         dayLight.SetActive(true);
-
+        mainCharacterScript.flashlightSource.SetActive(false);
+        backgroundMusic.clip = dayBgSound;
+        backgroundMusic.Play();
+        momGame.played = false;
+        pongGame.played = false;
+        basementNightScript.dayWall();
+        gardenDoorScript.dayWall();
+        officeBlocker.nightWall();
+        basementNightScript.isNight = false;
+        gardenDoorScript.isNight = false;
+        officeBlocker.isNight = false;
     }
     public void UpdateDayNumber()
     {
@@ -57,6 +88,7 @@ public class DaySystem : MonoBehaviour
         {
             makeNight();
             isTurningNight = false;
+            hideMom.SetActive(false);
         }
         else
         {
@@ -64,7 +96,7 @@ public class DaySystem : MonoBehaviour
             makeDay();
             PlayDayScene();
             isTurningNight = true;
-          
+            hideMom.SetActive(true);
         }
     }
 

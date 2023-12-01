@@ -6,6 +6,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public Transform doorSpawnPoint;
+    public AudioClip doorOpenClip;
 
     public bool requireItemToUnlock = false;
     public string[] unlockItemName;
@@ -35,6 +36,7 @@ public class Door : MonoBehaviour
                 CamController camScript = GameObject.Find("CM vcam1").GetComponent<CamController>();
                 camScript.changeCamBox(telepDoorCamLimiter);
                 col.transform.position = doorSpawnPoint.position;
+                col.GetComponent<RubyController>().PlaySound(doorOpenClip);
             }
             else
             {

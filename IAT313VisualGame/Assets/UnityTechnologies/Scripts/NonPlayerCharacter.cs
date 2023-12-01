@@ -9,12 +9,16 @@ using UnityEngine.Playables;
 /// </summary>
 public class NonPlayerCharacter : MonoBehaviour
 {
+
+    public RubyController playerControllerScript;
+
     public InventoryController itemCheckScript;
     public string wantedItemName = "sdfadf";
     public bool played = false;
     public float displayTime = 4.0f;
     public GameObject dialogBox;
     float timerDisplay;
+
 
     public dialogueTrigger dialogTriggerBox;
 
@@ -57,13 +61,17 @@ public class NonPlayerCharacter : MonoBehaviour
         }
        
         if (played == true)
-        dialogTriggerBox.TriggerDialogue();
+        {
+            dialogTriggerBox.TriggerDialogue();
+            playerControllerScript.canMove = true;
+            return;
+        }
         else
         {
             dialogBox.SetActive(true);
         }
 
-       
+        playerControllerScript.canMove = false;
     }
 
     public void giveMission()

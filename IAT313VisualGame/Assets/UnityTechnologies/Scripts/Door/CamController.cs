@@ -10,6 +10,10 @@ public class CamController : MonoBehaviour
 
    // public PolygonCollider2D currentBox;
     public CinemachineConfiner2D confiner;
+    public CinemachineVirtualCamera mainCam;
+
+    public Transform fatherPos;
+    public Transform PlayerPos;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +25,15 @@ public class CamController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void changeToFather()
+    {
+        mainCam.Follow = fatherPos;
+    }
+    public void changeToPlayer()
+    {
+        mainCam.Follow = PlayerPos;
     }
 
     public void changeCamBox(PolygonCollider2D camLimit)

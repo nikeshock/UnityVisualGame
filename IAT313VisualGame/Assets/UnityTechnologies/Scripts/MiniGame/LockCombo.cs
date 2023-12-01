@@ -12,7 +12,10 @@ public class LockCombo : MonoBehaviour
     int NrIndex = 0;
     string alpha;
     public TextMeshProUGUI UiText = null;
-    public DoorPad doorUnlockObject;
+    public GameObject doorUnlockObject;
+    public GameObject otherDoorUnlockWindow;
+
+   public GameObject lockComboWindow;
 
     public void CodeFunction(string Numbers)
     {
@@ -25,9 +28,12 @@ public class LockCombo : MonoBehaviour
     {
         if (Nr == Code)
         {
-            doorUnlockObject.setDoorOpen();
+            //doorUnlockObject.setDoorOpen();
+            doorUnlockObject.SetActive(true);
+            otherDoorUnlockWindow.SetActive(true);
             Debug.Log("you got the code");
             Delete();
+            lockComboWindow.SetActive(false);
         }
         else
         {

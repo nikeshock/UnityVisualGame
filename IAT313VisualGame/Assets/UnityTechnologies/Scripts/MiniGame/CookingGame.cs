@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class CookingGame : MonoBehaviour
 {
+    public AudioSource audioSource;
+    public AudioClip correctSizzleSound;
+    public AudioClip wrongSizzleSound;
+
     public UIHealthBar characterHpScript;
     public RubyController characterScript;
 
@@ -77,7 +81,7 @@ public class CookingGame : MonoBehaviour
         {
             Debug.Log(name);
             orderNum++;
-           
+            audioSource.PlayOneShot(correctSizzleSound);
            
         }
         else
@@ -91,6 +95,7 @@ public class CookingGame : MonoBehaviour
             //    loseDialogue.TriggerDialogue();
             //    cookingWindow.SetActive(false);
             //}
+            audioSource.PlayOneShot(wrongSizzleSound);
             Debug.Log(name + ": You Lose");
         }
 
@@ -148,9 +153,12 @@ public class CookingGame : MonoBehaviour
 
             characterHpScript.addBonusEnergy();
             characterScript.bonusEnergy++;
+            
             Debug.Log("you win");
             gamePlayerScript.played = true;
-            cookingWindow.SetActive(false);
+            //cookingWindow.SetActive(false);
+            audioSource.PlayOneShot(correctSizzleSound);
+            characterScript.closeItemWindow(cookingWindow);
             return;
             //you win
         }
@@ -163,7 +171,8 @@ public class CookingGame : MonoBehaviour
       
                 numTry = 5;
                 loseDialogue.TriggerDialogue();
-                cookingWindow.SetActive(false);
+                characterScript.closeItemWindow(cookingWindow);
+                //cookingWindow.SetActive(false);
             }
         }
         else

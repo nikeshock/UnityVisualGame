@@ -40,7 +40,7 @@ public class DoorPad : MonoBehaviour
             if(lockScript.activeSelf == false)
             {
                 lockScript.SetActive(true);
-                lockScript.GetComponent<LockCombo>().doorUnlockObject = this;
+               // lockScript.GetComponent<LockCombo>().doorUnlockObject = this;
             }
         }
 

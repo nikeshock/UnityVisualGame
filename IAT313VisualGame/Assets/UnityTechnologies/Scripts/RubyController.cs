@@ -1,17 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RubyController : MonoBehaviour
 {
     // =========DAY SYSTEM================
     public DaySystem dayScript;
-    public EnergyActiveItem interactableHolder;
+    //public EnergyActiveItem[] interactableHolder;
+    public List<EnergyActiveItem> interactableHolder = new List<EnergyActiveItem>();
 
     // =========Hide UI================
     public GameObject energyUi;
     public GameObject sunUi;
     public GameObject NightUI;
+    public GameObject inventoryUI;
 
+    public PolygonCollider2D samRoomCamCollider;
+
+    public GameObject flashlightSource;
     // ========= MOVEMENT =================
     public bool canMove;
     public float speed = 4;
@@ -29,7 +35,8 @@ public class RubyController : MonoBehaviour
     // ======== AUDIO ==========
     public AudioClip hitSound;
     public AudioClip shootingSound;
-    
+
+
     // ======== HEALTH ==========
     public int health
     {
@@ -119,15 +126,20 @@ public class RubyController : MonoBehaviour
                 NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
                 if (character != null)
                 {
+                    //if(character.dialogTriggerBox.GetComponent<dialogueTrigger>().dialogue.gameType == pong && )
+                    if(dayScript.isTurningNight == false) character.dialogTriggerBox.TriggerDialogue();
+                    else
                     character.DisplayDialog();
                 }  
             }
-            if (hit2.collider != null)
+            else if (hit2.collider != null)
             {
                 EnergyActiveItem item = hit2.collider.GetComponent<EnergyActiveItem>();
                 if (item != null)
                 {
-                    item.PopInteractable(this);
+                    
+                        item.PopInteractable(this);
+                    interactableHolder.Add(item);
                 }
             }
         }
@@ -154,7 +166,7 @@ public class RubyController : MonoBehaviour
             invincibleTimer = timeInvincible;
             
             animator.SetTrigger("Hit");
-            audioSource.PlayOneShot(hitSound);
+            //audioSource.PlayOneShot(hitSound);
 
         //Instantiate(hitParticle, transform.position + Vector3.up * 0.5f, Quaternion.identity);
 
@@ -167,7 +179,7 @@ public class RubyController : MonoBehaviour
         else
         currentHealth--;
         
-        if(currentHealth == 0)
+        if(currentHealth < 0)
             ChangeMode();
         else
         {
@@ -183,12 +195,47 @@ public class RubyController : MonoBehaviour
       
 
     }
+
+    public void hideUI()
+    {
+        energyUi.SetActive(false);
+        inventoryUI.SetActive(false);
+    }
+
+    public void returnUI()
+    {
+        energyUi.SetActive(true);
+        inventoryUI.SetActive(true);
+    }
+
+    public void clearEnergyOnObject()
+    {
+        if(interactableHolder.Count >= 1)
+        {
+            foreach(EnergyActiveItem energyObject in interactableHolder)
+            {
+                energyObject.spentEnergy = false;
+                
+            }
+            interactableHolder.Clear();
+        }
+    }
     
 
-    void ChangeMode()
+    public void ChangeMode()
     {
+        if(bonusEnergy > 0)
+        {
+            for(int i = 0; i > bonusEnergy ;i++)
+            bonusEnergy--;
+            UIHealthBar.Instance.useBonusEnergy();
+        }
         currentHealth = maxHealth;
         transform.position = respawnPosition.position;
+        CamController camScript = GameObject.Find("CM vcam1").GetComponent<CamController>();
+        camScript.changeCamBox(samRoomCamCollider);
+        clearEnergyOnObject();
+        UIHealthBar.Instance.reFillEnergy();
         dayScript.UpdateTimeScene();
     }
     
